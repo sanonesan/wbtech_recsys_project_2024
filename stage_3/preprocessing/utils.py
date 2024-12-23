@@ -1,8 +1,12 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
+"""
+Script for plotting distribution of a DataFrame column
+"""
 
+from typing import Dict, Any
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# pallete for plots
 custom_pallete = {
     "red": "#BF616A",
     "orange": "#D08770",
@@ -15,7 +19,11 @@ custom_pallete = {
     "blue": "#5E81AC",
 }
 
-def plt_distr(df, plot_info):
+
+def plt_distr(df: pd.DataFrame, plot_info: Dict[str, Any]):
+    """
+    Funciton for plotting distribution
+    """
 
     df_description = df[plot_info["field"]].describe(include="all")
 
@@ -69,7 +77,7 @@ def plt_distr(df, plot_info):
     plt.annotate(
         text_for_histplot,
         xy=plot_info["ann_xy"],
-        bbox=dict(boxstyle="square", fc="w", alpha=0.7),
+        bbox={"boxstyle": "square", "fc": "w", "alpha": 0.7},
         fontsize=12,
     )
 
