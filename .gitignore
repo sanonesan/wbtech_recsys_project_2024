@@ -1,8 +1,10 @@
 #
-models/
-data_closed/
-data/
+/models/
+/data_closed/
+/data/
 catboost_info/
+
+/stage_6/data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
