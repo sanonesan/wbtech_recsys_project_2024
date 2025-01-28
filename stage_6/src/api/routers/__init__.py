@@ -17,4 +17,3 @@ router.include_router(data_router)
 router.include_router(trainning_router)
 router.include_router(inference_router)
 router.include_router(pipelines_router)
-

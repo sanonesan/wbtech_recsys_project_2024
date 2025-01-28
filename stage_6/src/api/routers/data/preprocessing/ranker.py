@@ -28,7 +28,17 @@ async def preprocess_data_for_trainning(
     candidates_data_path=SETTINGS.candidates_data_path,
     do_ranker_test=SETTINGS.do_ranker_test,
 ) -> Response:
-    """ """
+    """
+    Preprocesses data for ranker training.
+
+    Args:
+        data_path: Path to the main data.
+        candidates_data_path: Path to candidate data.
+        do_ranker_test: Whether to run a ranker test after preprocessing.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         preprocess_data_for_ranker_trainning(
@@ -56,7 +66,16 @@ async def preprocess_data_for_inference(
     data_path=SETTINGS.data_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Preprocesses data for ranker inference.
+
+    Args:
+        data_path: Path to the main data.
+        candidates_data_path: Path to candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         preprocess_data_for_ranker_inference(

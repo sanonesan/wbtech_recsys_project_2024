@@ -9,8 +9,12 @@ from fastapi import APIRouter, status, Response
 from src.configurations.settings import SETTINGS
 
 from src.api.routers.trainning.first_stage import train_all_models_for_ranker_trainning
-from src.api.routers.inference.first_stage import inference_all_models_for_ranker_trainning
-from src.api.routers.data.preprocessing.ranker import preprocess_data_for_ranker_trainning
+from src.api.routers.inference.first_stage import (
+    inference_all_models_for_ranker_trainning,
+)
+from src.api.routers.data.preprocessing.ranker import (
+    preprocess_data_for_ranker_trainning,
+)
 from src.api.routers.trainning.second_stage import train_catboost_model
 
 train_ranker_pipeline_router = APIRouter(tags=["Pipelines"], prefix="/train")
@@ -25,10 +29,21 @@ async def trainning_ranker_pipeline(
     data_path: str = SETTINGS.data_path,
     candidates_data_path: int = SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Executes the complete ranker training pipeline.
+
+    Args:
+        models_path: Path to store the trained models.
+        data_path: Path to the training data.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during
+        the pipeline execution.
+    """
 
     try:
-        
+
         await train_all_models_for_ranker_trainning(
             data_path=data_path,
             models_path=models_path,

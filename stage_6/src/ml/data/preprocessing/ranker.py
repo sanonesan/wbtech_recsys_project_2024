@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module for preprocessing data for ranker
 """
@@ -22,7 +23,7 @@ from src.logs.console_logger import LOGGER
 RANDOM_STATE = 42
 
 
-def __merge_candidates_from_1_stage(candidates_data_path):
+def __merge_candidates_from_1_stage(candidates_data_path: str):
     """
     Merges candidate recommendations from different first-stage models.
 
@@ -69,8 +70,8 @@ def __merge_candidates_from_1_stage(candidates_data_path):
 
     candidates.collect().with_columns(
         (
-            pl.col(col_name).fill_null(default_values_merged[col_name])
-            for col_name in default_values_merged.keys()
+            pl.col(col_name).fill_null(default_value)
+            for col_name, default_value in default_values_merged.items()
         )
     ).write_parquet(candidates_data_path + "candidates_full.parquet")
 
@@ -82,11 +83,14 @@ def __func_feature_engineering_with_interactions(
     Calculates new interaction-based features for users and items.
 
     This function calculates features such as item popularity, user average item popularity,
-    item average user history length, and user last viewed item popularity based on user-item interactions.
+    item average user history length, and user last viewed item popularity based
+    on user-item interactions.
 
     Args:
-        df (Union[pl.LazyFrame, pl.DataFrame]): Input DataFrame or LazyFrame with user-item interaction data.
-        It should have columns `user_id`, `item_id`, `dt` and `u_total_inter` (renamed to `user_hist`).
+        df (Union[pl.LazyFrame, pl.DataFrame]): Input DataFrame or LazyFrame with user-item
+        interaction data.
+        It should have columns `user_id`, `item_id`, `dt` and `u_total_inter`
+        (renamed to `user_hist`).
 
     Returns:
         Union[pl.LazyFrame, pl.DataFrame]: DataFrame or LazyFrame with the new features.
@@ -149,14 +153,14 @@ def __get_tables_with_users_and_items_features(
     elif save_users_path:
         df_users = interactions.select("user_id").unique()
     else:
-        raise "users_path or save_users_path should be passed to funciton"
+        raise ValueError("users_path or save_users_path should be passed to funciton")
 
     if items_path:
         df_items = pl.scan_parquet(items_path)
     elif save_items_path:
         df_items = interactions.select("item_id").unique()
     else:
-        raise "users_path or save_users_path should be passed to funciton"
+        raise ValueError("users_path or save_users_path should be passed to funciton")
 
     # Добавляем новые фичи в соответствующие таблицы
     df_items.join(
@@ -320,7 +324,8 @@ def __add_target(df: pl.LazyFrame) -> pl.DataFrame:
     Adds a target column to a DataFrame based on interaction counts.
 
     This function takes a Polars LazyFrame or DataFrame, checks the number of interactions
-    represented by the `ui_inter` column, and assigns a numerical target value based on predefined thresholds.
+    represented by the `ui_inter` column, and assigns a numerical target value based
+    on predefined thresholds.
 
     Args:
         df (pl.LazyFrame): Input LazyFrame or DataFrame.
@@ -343,7 +348,7 @@ def __add_target(df: pl.LazyFrame) -> pl.DataFrame:
     ).collect()
 
 
-def preprocess_data_for_ranker_trainning(
+def preprocess_data_for_ranker_trainning(  # pylint: disable=R0912 R0914 R0915
     data_path,
     candidates_data_path,
     do_ranker_test: bool = False,
@@ -367,8 +372,8 @@ def preprocess_data_for_ranker_trainning(
             pl.scan_parquet(data_path + "df_items.parquet").drop(
                 ["item_pop", "item_avg_hist"]
             ).collect().write_parquet(data_path + "df_items.parquet")
-        except:
-            pass
+        except Exception:
+            LOGGER.info(msg="Recalculating df_items table: not needed!")
         LOGGER.info(msg="Recalculating df_items table: finished!")
 
         LOGGER.info(msg="Get tables with users and items features: started...")
@@ -390,13 +395,15 @@ def preprocess_data_for_ranker_trainning(
         with (
             # Пользователи, которым надо выдавать пресказания для обучения ранкера,
             # т.е. присутствуют и в base_models_data и в ranker_data (base to ranker users)
-            open(data_path + "b2r_users.dill", "rb") as f_b2r,
+            open(data_path + "b2r_users.dill", "rb") as f_b2r,  # pylint: disable=C0103
             # Пользователи из test_df, которым будут выданы
             # таргетирвонные рекомондации
-            open(data_path + "bNr2t_users.dill", "rb") as fbNr2t,
+            open(
+                data_path + "bNr2t_users.dill", "rb"
+            ) as f_bNr2t,  # pylint: disable=C0103
         ):
-            b2r_users = dill.load(f_b2r)
-            bNr2t_users = dill.load(fbNr2t)
+            b2r_users = dill.load(f_b2r)  # pylint: disable=C0103
+            bNr2t_users = dill.load(f_bNr2t)  # pylint: disable=C0103
 
         LOGGER.info(msg="Reading tables and users: finished!")
 
@@ -566,7 +573,9 @@ def preprocess_data_for_ranker_trainning(
         raise e
 
 
-def preprocess_data_for_ranker_inference(data_path, candidates_data_path):
+def preprocess_data_for_ranker_inference(  # pylint: disable=R0914
+    data_path: str, candidates_data_path: str
+):
     """
     Preprocesses data for ranker inference.
 
@@ -591,8 +600,8 @@ def preprocess_data_for_ranker_inference(data_path, candidates_data_path):
             pl.scan_parquet(data_path + "df_items.parquet").drop(
                 ["item_pop", "item_avg_hist"]
             ).collect().write_parquet(data_path + "df_items.parquet")
-        except:
-            pass
+        except Exception:
+            LOGGER.info(msg="Recalculating df_items table: not needed!")
 
         LOGGER.info(msg="Recalculating df_items table: finished!")
 
@@ -632,7 +641,7 @@ def preprocess_data_for_ranker_inference(data_path, candidates_data_path):
             # таргетирвонные рекомондации
             open(data_path + "bNr2t_users.dill", "rb") as users_f,
         ):
-            bNr2t_users = dill.load(users_f)
+            bNr2t_users = dill.load(users_f)  # pylint: disable=C0103
 
         ranker_data = (
             pl.scan_parquet(data_path + "ranker_data_bNr.parquet")

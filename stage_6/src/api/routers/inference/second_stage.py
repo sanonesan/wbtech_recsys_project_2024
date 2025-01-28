@@ -25,7 +25,19 @@ async def inference_catboost_model(
     model_name: str = "cb_ranker",
     n_splits: int = 5,
 ) -> Response:
-    """ """
+    """
+    Performs inference with a CatBoost Ranker model.
+
+    Args:
+        data_path: Path to the data directory.
+        models_path: Path to the directory containing the trained CatBoost model.
+        candidates_data_path: Path to the candidate data.
+        model_name: Name of the CatBoost model to use for inference.
+        n_splits: Number of splits for the inference process.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 

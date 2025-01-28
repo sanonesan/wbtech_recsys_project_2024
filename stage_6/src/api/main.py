@@ -14,7 +14,7 @@ from src.configurations.settings import SETTINGS
 
 
 @asynccontextmanager
-async def lifespan(application: FastAPI): # pylint: disable=unused-argument
+async def lifespan(application: FastAPI):  # pylint: disable=unused-argument
     """
     Lifespan for FastAPI init
     """

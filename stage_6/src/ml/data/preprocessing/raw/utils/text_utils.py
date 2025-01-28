@@ -1,3 +1,8 @@
+# pylint: disable=R0801
+"""
+Module with utils for processing text data
+"""
+
 import numpy as np
 import numpy.typing as npt
 
@@ -30,6 +35,18 @@ color_dict['[""]'] = len(POPULAR_COLORS) + 10
 
 
 def which_color(x: str):
+    """
+    Determines the color category of a given string or list of strings based
+        on predefined popular colors.
+
+    Args:
+        x: The input, which can be a string or a list of strings,
+            containing color-related information.
+
+    Returns:
+        The color category (value from the `color_dict`) that matches the input, or the default
+        color "другой" if no match is found or an exception occurs.
+    """
     # using try\except
     # for case if x is not iterable
     # or has other type
@@ -39,13 +56,14 @@ def which_color(x: str):
                 if c in x:
                     return color_dict[c]
             return color_dict["другой"]
-        else:
-            for c in POPULAR_COLORS:
-                for xx in x:
-                    if c in xx:
-                        return color_dict[c]
-            return color_dict["другой"]
-    except:
+
+        for c in POPULAR_COLORS:
+            for xx in x:
+                if c in xx:
+                    return color_dict[c]
+        return color_dict["другой"]
+
+    except Exception:
         return color_dict["другой"]
 
 
@@ -355,28 +373,74 @@ chars_formating_dicts = {
 
 
 def parse_char_dict(characteristics: dict):
+    """
+    Parses and filters item characteristics, extracting relevant information
+    based on predefined names.
+
+    Args:
+        characteristics: A dictionary containing item characteristics, where each key is
+            a characteristic name, and value is a list of associated values.
+
+    Returns:
+        A new dictionary containing filtered characteristics names as keys,
+        with lowercase char values as a list of strings as values.
+    """
     filtered_chars = {}
     for char in characteristics:
         try:
             filtered_chars[chars_dict[str.lower(char["charcName"])]] = [
                 str.lower(x) for x in char["charcValues"]
             ]
-        except:
+        except Exception:
             pass
     return filtered_chars
 
 
 def get_char_value(characteristics: dict, char: str):
+    """
+    Retrieves the value associated with a specific characteristic
+    from a dictionary of characteristics.
+
+    This function attempts to retrieve a specific characteristic (e.g., color) from a dictionary of
+    item characteristics. If the characteristic is found, its associated value (which is expected to
+    be a list) is returned. If the characteristic is not found, a default list with single "unknown"
+    value is returned.
+
+    Args:
+        characteristics: A dictionary containing item characteristics, where each key is a
+            characteristic name (string) and the value is the associated value (list of strings).
+        char: The name of the characteristic to retrieve.
+
+    Returns:
+        The value associated with the given characteristic (list of strings),
+        or ["unknown"] if not found.
+    """
     try:
         return characteristics[char]
-    except:
+    except Exception:
         return ["unknown"]
 
 
 def format_chars(chars: npt.ArrayLike, char_dict: dict):
+    """
+    Formats item characteristics based on predefined character types and values.
 
-    for charType, charValues in char_dict.items():
-        if any(v in "".join(chars) for v in charValues):
-            return charType
+    This function takes a list or array-like object of strings and a character type dictionary.
+    It iterates through the dictionary and checks whether any of the values for a given character
+    type are present in the input array. If a match is found, the type of the matched value is
+    returned. If not match is found, the default "unknown" value is returned.
+
+    Args:
+        chars: A NumPy array-like of strings representing the characteristics of an item.
+        char_dict: A dictionary where keys are character types and values are lists
+            of possible values for that character type.
+
+    Returns:
+        The matched char type if found in array, or "unknown" if no match is found.
+    """
+
+    for char_type, char_values in char_dict.items():
+        if any(v in "".join(chars) for v in char_values):
+            return char_type
 
     return "unknown"

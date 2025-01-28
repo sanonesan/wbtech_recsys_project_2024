@@ -2,15 +2,8 @@
 LFM implementation using LightFM (custom wrapper)
 """
 
-# ----------------
-# Data processing
-# ----------------
-
 import dill
 
-# ---------------------
-# RecSys models imports
-# ---------------------
 from lightfm import LightFM
 
 from rectools.dataset import Dataset as RTDataset
@@ -19,7 +12,7 @@ from rectools.models import LightFMWrapperModel
 from src.ml.models.first_stage.base_rt_model import BaseRTModel
 
 
-class LFMModel(BaseRTModel):
+class LFMModel(BaseRTModel):  # pylint: disable=R0903
     """
     Latent Factor Model (LFM) implementation using LightFM.
 

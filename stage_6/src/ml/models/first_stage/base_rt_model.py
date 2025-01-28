@@ -35,8 +35,7 @@ class BaseRTModel(ABC):
         # Params for trainning and inferencing model
         self.fitted = fitted
 
-
-    def fit(self, dataset: RTDataset): 
+    def fit(self, dataset: RTDataset): # pylint: disable=W0613
         """
         Abstract method to fit the model.
 
@@ -45,7 +44,6 @@ class BaseRTModel(ABC):
         Args:
             dataset (RTDataset): The input rectools Dataset used for training.
         """
-        ...
 
     def get_candidates(
         self,
@@ -86,6 +84,6 @@ class BaseRTModel(ABC):
                 ).write_parquet(
                     self.candidates_data_path + f"candidates_{self.model_name}.parquet"
                 )
-            
+
         else:
-            raise "Model is not fitted"
+            raise LookupError("Model is not fitted")

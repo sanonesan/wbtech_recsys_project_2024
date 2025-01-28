@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Trainner for first stage models
 """
@@ -59,7 +60,6 @@ class Trainner:
 
         LOGGER.info(msg="Trainning 1st stage KNN models: finished!")
 
-
     @staticmethod
     def train_lfm_model(
         dataset: RTDataset,
@@ -80,21 +80,20 @@ class Trainner:
 
         LOGGER.info(msg="Trainning 1st stage LFM model: started...")
 
-        LOGGER.info(msg=f"LFM model initialization: started...")
+        LOGGER.info(msg="LFM model initialization: started...")
         model = LFMModel(
             models_path=models_path,
-            model_name=f"lfm",
+            model_name="lfm",
             candidates_data_path=candidates_data_path,
             fitted=False,
         )
-        LOGGER.info(msg=f"LFM model initialization: finished!")
+        LOGGER.info(msg="LFM model initialization: finished!")
 
-        LOGGER.info(msg=f"LFM model fitting: started...")
+        LOGGER.info(msg="LFM model fitting: started...")
         model.fit(dataset=dataset)
-        LOGGER.info(msg=f"LFM model fitting: finished!")
+        LOGGER.info(msg="LFM model fitting: finished!")
 
         LOGGER.info(msg="Trainning 1st stage LFM model: finished!")
-
 
     @staticmethod
     def train_all_models(

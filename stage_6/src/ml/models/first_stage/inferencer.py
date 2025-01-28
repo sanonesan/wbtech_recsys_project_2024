@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Inferencer for 1st stage models.
 """
@@ -37,7 +38,7 @@ class Inferencer:
             dataset (RTDataset): Input rectools Dataset.
             users (npt.NDArray): Array of user IDs for which to generate recommendations.
             n_candidates (int): Number of candidate items to recommend for each user.
-        """        
+        """
 
         model_type_name_dict = {
             "CosineRecommender": "cos",
@@ -87,28 +88,29 @@ class Inferencer:
             models_path (str): Directory to the stored models.
             candidates_data_path (str): Path to the candidate data.
             dataset (RTDataset): Input rectools Dataset to generate recommendations.
-            users (npt.NDArray): Array-like object of user IDs for which to generate recommendations.
+            users (npt.NDArray): Array-like object of user IDs 
+                for which to generate recommendations.
             n_candidates (int): The number of candidate items to recommend for each user.
         """
 
         LOGGER.info(msg="Inferencing 1st stage LFM model: started...")
 
-        LOGGER.info(msg=f"LFM model initialization: started...")
+        LOGGER.info(msg="LFM model initialization: started...")
         model = LFMModel(
             models_path=models_path,
-            model_name=f"lfm",
+            model_name="lfm",
             candidates_data_path=candidates_data_path,
             fitted=True,
         )
-        LOGGER.info(msg=f"LFM model initialization: finished!")
+        LOGGER.info(msg="LFM model initialization: finished!")
 
-        LOGGER.info(msg=f"LFM model inference: started...")
+        LOGGER.info(msg="LFM model inference: started...")
         model.get_candidates(
             dataset=dataset,
             users=users,
             n_candidates=n_candidates,
         )
-        LOGGER.info(msg=f"LFM model inference: finished!")
+        LOGGER.info(msg="LFM model inference: finished!")
 
         LOGGER.info(msg="Inferencing 1st stage LFM model: finished!")
 

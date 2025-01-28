@@ -38,7 +38,17 @@ async def inference_knn_models_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with KNN-based models for ranker training.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained KNN models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
         with open(data_path + "b2r_users.dill", "rb") as f:
@@ -74,7 +84,17 @@ async def inference_lfm_model_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with a Latent Factor Model (LFM) for ranker training.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained LFM model.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 
@@ -111,7 +131,17 @@ async def inference_all_models_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with all first-stage models for ranker training.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 
@@ -153,7 +183,17 @@ async def inference_knn_models_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with KNN-based models for ranker inference.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained KNN models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 
@@ -212,7 +252,17 @@ async def inference_lfm_model_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with a Latent Factor Model (LFM) for ranker inference.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained LFM model.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 
@@ -271,7 +321,17 @@ async def inference_all_models_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Performs inference with all first-stage models for ranker training.
+
+    Args:
+        data_path: Path to the data directory containing training data and user mappings.
+        models_path: Path to the directory containing the trained models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during inference.
+    """
 
     try:
 

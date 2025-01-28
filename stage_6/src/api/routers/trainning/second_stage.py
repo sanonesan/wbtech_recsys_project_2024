@@ -24,7 +24,18 @@ async def train_catboost_model(
     candidates_data_path=SETTINGS.candidates_data_path,
     model_name: str = "cb_ranker",
 ) -> Response:
-    """ """
+    """
+    Trains a CatBoost Ranker model.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained CatBoost model.
+        candidates_data_path: Path to the candidate data.
+        model_name: Name to assign to the trained model.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 

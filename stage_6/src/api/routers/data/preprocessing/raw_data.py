@@ -28,7 +28,16 @@ async def preprocess_interactions(
     interactions_path: str = SETTINGS.interactions_path,
     data_path: str = SETTINGS.data_path,
 ) -> Response:
-    """ """
+    """
+    Preprocesses raw interaction data.
+
+    Args:
+        interactions_path: Path to the raw interactions data.
+        data_path: Path to store the preprocessed data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         preprocess_interactions_pipeline(
@@ -54,7 +63,16 @@ async def preprocess_items_text_data(
     text_data_path: str = SETTINGS.text_data_path,
     data_path: str = SETTINGS.data_path,
 ) -> Response:
-    """ """
+    """
+    Preprocesses raw text data associated with items.
+
+    Args:
+        text_data_path: Path to the raw text data file.
+        data_path: Path to store the preprocessed text data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         preprocess_items_text_data_pipline(
@@ -81,7 +99,17 @@ async def preprocess_items_images_data(
     data_path: str = SETTINGS.data_path,
     batch_size: int = SETTINGS.imgs_batch_size,
 ) -> Response:
-    """ """
+    """
+    Preprocesses raw image data associated with items.
+
+    Args:
+        imgs_data_path: Path to the raw images data directory.
+        data_path: Path to store the preprocessed image data.
+        batch_size: Number of images to process in each batch.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         preprocess_items_images_data_pipline(
@@ -111,7 +139,19 @@ async def preprocess_all_data(
     data_path: str = SETTINGS.data_path,
     batch_size: int = SETTINGS.imgs_batch_size,
 ) -> Response:
-    """ """
+    """
+    Preprocesses all raw data including interactions, text, and images.
+
+    Args:
+        interactions_path: Path to the raw interactions data.
+        text_data_path: Path to the raw text data file.
+        imgs_data_path: Path to the raw images data directory.
+        data_path: Path to store the preprocessed data.
+        batch_size: Number of images to process in each batch.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during preprocessing.
+    """
 
     try:
         await preprocess_interactions(

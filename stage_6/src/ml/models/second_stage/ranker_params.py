@@ -4,9 +4,7 @@ from catboost.utils import get_gpu_device_count
 
 RANDOM_STATE = 42
 
-
 CB_EARLY_STOPPING_ROUNDS = 32  # число итераций, в течение которых нет улучшения метрик
-
 CB_PARAMS = {
     "objective": "YetiRank",  # catboost аналог lambdarank, оптимизирующий ndcg и map
     "custom_metric": [

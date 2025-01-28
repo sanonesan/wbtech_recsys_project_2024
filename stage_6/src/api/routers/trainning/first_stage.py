@@ -14,17 +14,20 @@ from src.ml.models.first_stage.trainner import Trainner
 
 
 trainning_first_stage_for_ranker_trainning_router = APIRouter(
-    tags=["TrainningFirstStageForRankerTrainning"], prefix="/first_stage_models_for_ranker_trainning"
+    tags=["TrainningFirstStageForRankerTrainning"],
+    prefix="/first_stage_models_for_ranker_trainning",
 )
 
 trainning_first_stage_for_ranker_inference_router = APIRouter(
-    tags=["TrainningFirstStageForRankerInference"], prefix="/first_stage_models_for_ranker_inference"
+    tags=["TrainningFirstStageForRankerInference"],
+    prefix="/first_stage_models_for_ranker_inference",
 )
 
 
 # ------------------------------
 # Trainning for Ranker Trainning
 # ------------------------------
+
 
 @trainning_first_stage_for_ranker_trainning_router.post(
     path="/knn_based_models/",
@@ -35,7 +38,17 @@ async def train_knn_models_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains KNN-based models for ranker training.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained KNN models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 
@@ -67,7 +80,17 @@ async def train_lfm_model_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains a Latent Factor Model (LightFM) for ranker training.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained LFM model.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 
@@ -99,7 +122,17 @@ async def train_all_models_for_ranker_trainning(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains all first-stage models for ranker training.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 
@@ -127,6 +160,7 @@ async def train_all_models_for_ranker_trainning(
 # Trainning for Ranker Inference
 # ------------------------------
 
+
 @trainning_first_stage_for_ranker_inference_router.post(
     path="/knn_based_models/",
     status_code=status.HTTP_201_CREATED,
@@ -136,7 +170,17 @@ async def train_knn_models_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains KNN-based models for ranker inference.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained KNN models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 
@@ -188,7 +232,17 @@ async def train_lfm_model_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains a Latent Factor Model (LightFM) for ranker inference.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained LFM model.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 
@@ -240,7 +294,17 @@ async def train_all_models_for_ranker_inference(
     models_path=SETTINGS.models_path,
     candidates_data_path=SETTINGS.candidates_data_path,
 ) -> Response:
-    """ """
+    """
+    Trains all first-stage models for ranker inference.
+
+    Args:
+        data_path: Path to the training data.
+        models_path: Path to store the trained models.
+        candidates_data_path: Path to the candidate data.
+
+    Returns:
+        200 OK if successful, 409 CONFLICT if an error occurs during training.
+    """
 
     try:
 

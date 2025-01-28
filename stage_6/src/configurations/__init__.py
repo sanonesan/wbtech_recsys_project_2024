@@ -1,3 +1,3 @@
 """
-Module with configurations for API
+Module with configurations for APP
 """

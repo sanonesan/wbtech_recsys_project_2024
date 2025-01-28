@@ -2,19 +2,10 @@
 CatBoost ranker model custom wrapper
 """
 
-# ----------------
-# Data processing
-# ----------------
-
 import numpy as np
 import polars as pl
 
 from tqdm.auto import tqdm
-
-
-# ---------------------
-# RecSys models imports
-# ---------------------
 
 from catboost import CatBoostRanker, Pool
 
@@ -23,7 +14,7 @@ from src.ml.data.feature_utils import (
     SECOND_STAGE_CATEGORIAL_FEATURES,
     FEATURES_FOR_ANALYSIS,
 )
-from src.ml.models.second_stage.ranker_utils import (
+from src.ml.models.model_utils import (
     get_catboost_group_id,
     add_score_and_rank,
 )
@@ -51,11 +42,13 @@ class CBRanker(CatBoostRanker):
             models_path (str): Path to the directory where trained models are stored.
             model_name (str): Name of the model. This name will be used to save and load the model.
             candidates_data_path (str): Path to the candidates data used for ranking.
-            load_model (bool, optional): If True, loads a model from the model_path. Defaults to False.
-            **params (Dict[str, Any]): Additional parameters to pass to the CatBoostRanker constructor.
+            load_model (bool, optional): If True, loads a model from the model_path. 
+                Defaults to False.
+            **params (Dict[str, Any]): Additional parameters to pass 
+                to the CatBoostRanker constructor.
         """
 
-        super(CBRanker, self).__init__(**params)
+        super().__init__(**params)
 
         self.model_name = model_name
         self.model_path = models_path + "/" + model_name + ".cbm"
@@ -64,18 +57,18 @@ class CBRanker(CatBoostRanker):
         if load_model:
             self.load_model(self.model_path)
 
-    def fit(self, data_path):
+    def my_fit(self, data_path: str):
         """
         Trains the CatBoost ranking model.
 
-        This method reads training and validation data from parquet files, 
+        This method reads training and validation data from parquet files,
         creates CatBoost Pools, and trains the model using these pools. It then saves the
         trained model to the specified path.
         Error handling is implemented using a try-except block.
 
         Args:
-            data_path (str): Base path to the training and validation data files. 
-                            It assumes the files are named "ranker_train.parquet" and 
+            data_path (str): Base path to the training and validation data files.
+                            It assumes the files are named "ranker_train.parquet" and
                             "ranker_val.parquet" and are located in the specified path.
         """
 
@@ -95,10 +88,12 @@ class CBRanker(CatBoostRanker):
             )
         )
         try:
-            super(CBRanker, self).fit(
+            super().fit(
                 # Train Pool
                 Pool(
-                    data=ranker_train.select(SECOND_STAGE_FEATURES).collect().to_pandas(),
+                    data=ranker_train.select(SECOND_STAGE_FEATURES)
+                    .collect()
+                    .to_pandas(),
                     label=ranker_train.select("target").collect().to_pandas(),
                     group_id=get_catboost_group_id(ranker_train),
                     cat_features=SECOND_STAGE_CATEGORIAL_FEATURES,
@@ -145,7 +140,7 @@ class CBRanker(CatBoostRanker):
 
         for i in tqdm(range(n_splits)):
 
-            y_pred: np.ndarray = super(CBRanker, self).predict(
+            y_pred: np.ndarray = super().predict(
                 Pool(
                     data=ranker_data.filter(pl.col("user_id").is_in(batches[i]))
                     .select(SECOND_STAGE_FEATURES)

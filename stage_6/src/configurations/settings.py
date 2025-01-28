@@ -12,13 +12,14 @@ class Settings(BaseSettings):
     """
     Class with default settings for application
     """
+
     project_name: str = "WBTech proj"
 
     interactions_path: str
     text_data_path: str
     imgs_data_path: str
-    data_path: str 
-    models_path: str 
+    data_path: str
+    models_path: str
     candidates_data_path: str
     do_ranker_test: bool
     imgs_batch_size: int

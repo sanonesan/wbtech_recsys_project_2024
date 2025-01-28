@@ -2,15 +2,7 @@
 KNN implementation using implicit (custom wrapper)
 """
 
-# ----------------
-# Data processing
-# ----------------
-
 import dill
-
-# ---------------------
-# RecSys models imports
-# ---------------------
 
 from rectools.dataset import Dataset as RTDataset
 from rectools.models import (
@@ -21,23 +13,26 @@ from implicit import nearest_neighbours
 from src.ml.models.first_stage.base_rt_model import BaseRTModel
 
 
-class KNNBasedModel(BaseRTModel):
+class KNNBasedModel(BaseRTModel):  # pylint: disable=R0903
+    """
+    Class wrapper for KNN implementation using implicit
+    """
 
     model_path: str
     model_name: str
     candidates_data_path: str
     model_type: str
-    K: int
+    k: int
     fitted: bool
 
-    def __init__(
+    def __init__(  # pylint: disable=R0913, R0917
         self,
         models_path,
         model_name,
         candidates_data_path,
         fitted: bool = False,
         model_type: str = "CosineRecommender",
-        K: int = 50,
+        k: int = 50,
     ):
         """
         Initializes a KNN-based recommender model.
@@ -46,8 +41,10 @@ class KNNBasedModel(BaseRTModel):
             models_path (str): Path where the models are stored.
             model_name (str): Name of the model.
             candidates_data_path (str): Path where to store the candidates data.
-            fitted (bool, optional): Flag indicating if the model is already fitted, defaults to False.
-            model_type (str, optional): Type of model ('CosineRecommender', 'BM25Recommender', 'TFIDFRecommender'), defaults to 'CosineRecommender'.
+            fitted (bool, optional): Flag indicating if the model is already fitted,
+                defaults to False.
+            model_type (str, optional): Type of model ('CosineRecommender',
+                'BM25Recommender', 'TFIDFRecommender'), defaults to 'CosineRecommender'.
             K (int, optional): Number of nearest neighbors to consider. Defaults to 50.
         """
         super().__init__(
@@ -57,7 +54,7 @@ class KNNBasedModel(BaseRTModel):
             fitted=fitted,
         )
         self.model_type = model_type
-        self.K = K
+        self.k = k
 
     def fit(self, dataset: RTDataset):
         """
@@ -74,29 +71,21 @@ class KNNBasedModel(BaseRTModel):
 
             match self.model_type:
                 case "CosineRecommender":
-                    # init
                     model = implicit_knn.ImplicitItemKNNWrapperModel(
-                        model=nearest_neighbours.CosineRecommender(K=self.K)
+                        model=nearest_neighbours.CosineRecommender(K=self.k)
                     )
-                    # fit
-                    model.fit(dataset)
 
                 case "BM25Recommender":
-                    # init
                     model = implicit_knn.ImplicitItemKNNWrapperModel(
-                        model=nearest_neighbours.BM25Recommender(K=self.K)
+                        model=nearest_neighbours.BM25Recommender(K=self.k)
                     )
-                    # fit
-                    model.fit(dataset)
-                    # save model
 
                 case "TFIDFRecommender":
-                    # init
                     model = implicit_knn.ImplicitItemKNNWrapperModel(
-                        model=nearest_neighbours.TFIDFRecommender(K=self.K)
+                        model=nearest_neighbours.TFIDFRecommender(K=self.k)
                     )
-                    # fit
-                    model.fit(dataset)
+
+            model.fit(dataset)
 
             # save model
             dill.dump(model, f)
