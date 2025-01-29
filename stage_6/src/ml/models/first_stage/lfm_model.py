@@ -9,7 +9,7 @@ from lightfm import LightFM
 from rectools.dataset import Dataset as RTDataset
 from rectools.models import LightFMWrapperModel
 
-from src.ml.models.first_stage.base_rt_model import BaseRTModel
+from src.ml.models.base_models.base_rt_model import BaseRTModel
 
 
 class LFMModel(BaseRTModel):  # pylint: disable=R0903

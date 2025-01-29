@@ -2,6 +2,7 @@
 """
 Router for preprocessing data for trainnig second stage
 """
+
 import dill
 import polars as pl
 

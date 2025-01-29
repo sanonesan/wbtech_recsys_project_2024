@@ -10,7 +10,7 @@ from rectools.models import (
 )
 from implicit import nearest_neighbours
 
-from src.ml.models.first_stage.base_rt_model import BaseRTModel
+from src.ml.models.base_models.base_rt_model import BaseRTModel
 
 
 class KNNBasedModel(BaseRTModel):  # pylint: disable=R0903
